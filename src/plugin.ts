@@ -4,6 +4,7 @@ import meta from "./meta";
 import components from "./components";
 
 export { default as utils } from "./utils";
+export { default as MoodVitePlugin } from "./vite";
 export * from "./meta";
 
 export const Mood = {
