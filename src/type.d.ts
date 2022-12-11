@@ -1,4 +1,4 @@
-export * from "./plugin";
+export * from ".";
 
 import "./components";
 import type meta from "./meta";
