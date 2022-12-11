@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { textFormatPost } from "@/utils/uString";
+import { textFormatPost } from "@mood/utils/uString";
 
 defineProps({
   text: { default: "true", type: String },

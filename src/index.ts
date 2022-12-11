@@ -10,8 +10,7 @@ export { default as MoodVitePlugin } from "./vite-plugin";
 
 export const Mood = {
   install(app: App) {
-    app.config.globalProperties.$mood = {};
-
+    app.config.globalProperties.$mood = {} as any;
     app.use(meta);
     app.use(components);
   },

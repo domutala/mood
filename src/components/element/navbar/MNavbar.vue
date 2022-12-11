@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { generateMarker } from "@/utils/uString";
+import { generateMarker } from "@mood/utils/uString";
 import { onBeforeUnmount, onDeactivated, onMounted, ref } from "vue";
 
 const props = defineProps({

@@ -3,7 +3,7 @@ import { onBeforeUnmount, onDeactivated, onMounted, ref, watch } from "vue";
 import { createPopper, type Instance } from "@popperjs/core";
 
 import $ from "jquery";
-import { generateMarker } from "@/utils/uString";
+import { generateMarker } from "@mood/utils/uString";
 
 const props = defineProps({
   atach: { required: true, type: String },
