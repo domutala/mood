@@ -1,0 +1,118 @@
+$mdNavbarVars: (
+  m-navbar-zindex: 1000,
+  m-navbar-vertical-width: 180px,
+  m-navbar-vertical-split-width: 65px,
+  m-navbar-horizontal-height: 65px,
+  m-navbar-bg-color: #fff,
+  m-navbar-bd-color: var(--m-border-color),
+);
+
+:root {
+  @each $key, $value in $mdNavbarVars {
+    --#{$key}: #{$value};
+  }
+}
+
+.m-navbar {
+  background-color: var(--m-navbar-bg-color);
+  position: fixed;
+  z-index: var(--m-navbar-zindex);
+
+  .m-navbar__container {
+    &.first {
+      order: 1;
+    }
+    &.middle {
+      order: 2;
+    }
+    &.last {
+      order: 3;
+    }
+  }
+
+  &.vertical {
+    height: 100%;
+    width: var(--m-navbar-vertical-width);
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .m-navbar__container {
+      &.middle {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      &.first {
+        margin-bottom: auto;
+      }
+      &.last {
+        margin-top: auto;
+      }
+
+      &.hide-vertical-all-align {
+        display: none;
+      }
+    }
+
+    &.with-border {
+      border: 1px solid var(--m-navbar-bd-color);
+    }
+
+    &:not(.split) {
+      .m-navbar__container {
+        &.hide-vertical-align {
+          display: none;
+        }
+      }
+    }
+
+    &.split {
+      width: var(--m-navbar-vertical-split-width);
+      align-items: center;
+
+      .m-navbar__container {
+        &.hide-vertical-split-align {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &:not(.vertical) {
+    width: 100%;
+    height: var(--m-navbar-horizontal-height);
+    bottom: 0;
+    left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    display: flex;
+    align-items: center;
+
+    .m-navbar__container {
+      &.middle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      &.first {
+        margin-right: auto;
+      }
+      &.last {
+        margin-left: auto;
+      }
+
+      &.hide-horizontal-align {
+        display: none;
+      }
+    }
+
+    &.with-border {
+      border: 1px solid var(--m-navbar-bd-color);
+    }
+  }
+}

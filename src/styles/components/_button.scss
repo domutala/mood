@@ -1,0 +1,97 @@
+:root {
+  $colors: (
+    "primary": (
+      "default": #00a6fb,
+      "flat": #e3f2fd,
+    ),
+    "danger": (
+      "default": #ef233c,
+      "flat": #ffe3e0,
+    ),
+    "success": (
+      "default": #2a9134,
+      "flat": #b7efc5,
+    ),
+    "info": (
+      "default": #ffd819,
+      "flat": #fff6cc,
+    ),
+    "dark": (
+      "default": #252422,
+      "flat": #e9ecef,
+    ),
+  );
+
+  @each $key, $value in $colors {
+    @include mColorBuilder($value, $key, "button");
+  }
+}
+
+.m-button {
+  font-size: 15px;
+  border: 2px solid;
+  border-color: transparent;
+  position: relative;
+  border-radius: 9999px;
+  padding-left: 16px;
+  padding-right: 16px;
+  outline: none;
+  min-height: 36px;
+  min-width: 36px;
+  background-color: unset;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  white-space: nowrap;
+
+  $colors: ("danger", "info", "success", "primary", "dark");
+  @each $color in $colors {
+    @include mComponentBuildColor(#{$color});
+    @include mComponentBuildColor("#{$color}-flat");
+    @include mComponentBuildColor("#{$color}-transparent");
+  }
+
+  svg {
+    width: 18px;
+  }
+
+  &.square {
+    border-radius: 0;
+  }
+
+  &.icon {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 50%;
+      height: 50%;
+    }
+  }
+
+  &.lg {
+    font-size: 30px;
+    min-height: 72px;
+    min-width: 72px;
+
+    // svg {
+    //   width: 36px;
+    //   height: 36px;
+    // }
+
+    &.icon {
+      width: 72px;
+      height: 72px;
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+}
