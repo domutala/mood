@@ -4,14 +4,14 @@ import {
   readdirSync,
   readFileSync,
   writeFileSync,
+  watch,
 } from "node:fs";
 import type { PluginOption } from "vite";
-import path from "node:path";
-import { watch } from "node:fs";
+import * as path from "node:path";
 
 export default function (): PluginOption {
   return {
-    name: "vite-plugin-gen",
+    name: "vite-plugin-mood",
     enforce: "pre",
 
     buildStart() {

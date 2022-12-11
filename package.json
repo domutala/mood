@@ -4,7 +4,8 @@
   "scripts": {
     "copy:styles": "node ./src/copy.js",
     "dev": "vite --host",
-    "build": "run-p type-check build-only && yarn copy:styles",
+    "build": "run-p type-check build-only copy:styles",
+    "build2": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
@@ -53,6 +54,7 @@
   },
   "exports": {
     ".": "./dist/index.js",
+    "./vite-plugin": "./dist/vite-plugin.ts",
     "./dist/*": "./dist/*"
   },
   "browser": {

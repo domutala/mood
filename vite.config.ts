@@ -10,7 +10,7 @@ export default () => {
       vue({}),
       typescript2({
         check: false,
-        // include: ["src/components/*.vue"],
+        include: ["src/vite-plugin.ts"],
         tsconfigOverride: {
           compilerOptions: {
             sourceMap: false,
