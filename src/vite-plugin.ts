@@ -47,7 +47,7 @@ function buildIcon() {
     if (!existsSync(DIR_ICON)) mkdirSync(DIR_ICON);
 
     toconvert(config);
-    watch(SRC_DIR, () => toconvert());
+    watch(SRC_DIR, () => toconvert(config));
   }
 }
 

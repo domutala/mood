@@ -1,6 +1,7 @@
 @import "fonts";
 @import "mixins/index";
 @import "components/index";
+@import "screen";
 @import "vars";
 
 :root {
@@ -46,12 +47,11 @@ body {
 
   a {
     text-decoration: none;
-    color: var(--m-dark);
+    color: var(--m-dark) !important;
   }
 
-  i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  button {
+    border: 0;
+    outline: none;
   }
 }

@@ -1,0 +1,38 @@
+$screen-xg: 1272px;
+$screen-lg: 992px;
+$screen-md: 772px;
+$screen-sm: 572px;
+
+$screen-sizes: (
+  xg: $screen-xg,
+  lg: $screen-lg,
+  md: $screen-md,
+  sm: $screen-sm,
+);
+
+@each $key, $value in $screen-sizes {
+  .--width-#{$key} {
+    max-width: 90% !important;
+    width: #{$value};
+  }
+
+  @media (max-width: #{$value}) {
+    .--fill-at-#{$key} {
+      max-width: unset;
+      border-radius: 0 !important;
+      width: 100%;
+    }
+  }
+}
+
+.--width-fill {
+  width: 100% !important;
+  border-radius: 0;
+}
+
+:root {
+  --m-sreen-xg: #{$screen-xg};
+  --m-screen-lg: #{$screen-lg};
+  --m-screen-md: #{$screen-md};
+  --m-screen-sm: #{$screen-sm};
+}
