@@ -3,6 +3,7 @@ import { onBeforeUnmount, onDeactivated, onMounted, ref, type Ref } from "vue";
 
 const props = defineProps({
   blur: { type: Boolean, default: false },
+  extend: { type: Boolean, default: false },
   closeOnBack: { type: Boolean, default: true },
   closeOnEsc: { type: Boolean, default: true },
 });
@@ -18,7 +19,6 @@ function init() {
   const body = document.body;
 
   if (body) {
-    body.style.overflow = "hidden";
     body.appendChild(el.value);
     emit("open");
   }
@@ -42,13 +42,6 @@ function onEscPress(e: any) {
 function destroy() {
   const body = document.body;
   window.removeEventListener("keydown", onEscPress);
-
-  const modals = document.querySelectorAll(".m-modal");
-
-  if (body && modals.length <= 1) {
-    body.style.overflowY = "scroll";
-  }
-
   if (!el.value) return;
 
   if (body && el.value.parentNode === body) {
@@ -61,13 +54,17 @@ onDeactivated(destroy);
 </script>
 
 <template>
-  <div ref="el" class="m-modal" :class="{ blur }">
+  <div ref="el" class="m-modal" :class="{ blur, extend }">
     <div class="m-modal-back" @click="onBackClick"></div>
     <slot />
   </div>
 </template>
 
 <style lang="scss">
+:root {
+  --m-modal-z-index: 2500;
+}
+
 .m-modal {
   display: flex;
   align-items: center;
@@ -77,7 +74,7 @@ onDeactivated(destroy);
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 500;
+  z-index: var(--m-modal-z-index);
 
   .m-modal-back {
     position: absolute;
@@ -85,8 +82,6 @@ onDeactivated(destroy);
     height: 100%;
     top: 0;
     left: 0;
-    // background-color: rgba(var(--black), 0.4);
-    // backdrop-filter: saturate(180%) blur(15px);
     background-color: var(--m-dark-010-color);
   }
 
@@ -96,6 +91,18 @@ onDeactivated(destroy);
       max-height: 90%;
       position: relative;
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+  }
+
+  &.extend {
+    > * {
+      &:not(.m-modal-back) {
+        max-width: unset;
+        max-height: unset;
+        width: 100%;
+        height: 100%;
+        box-shadow: none;
+      }
     }
   }
 }

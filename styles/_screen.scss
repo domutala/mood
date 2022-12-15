@@ -18,7 +18,7 @@ $screen-sizes: (
 
   @media (max-width: #{$value}) {
     .--fill-at-#{$key} {
-      max-width: unset;
+      max-width: unset !important;
       border-radius: 0 !important;
       width: 100%;
     }
@@ -31,8 +31,7 @@ $screen-sizes: (
 }
 
 :root {
-  --m-sreen-xg: #{$screen-xg};
-  --m-screen-lg: #{$screen-lg};
-  --m-screen-md: #{$screen-md};
-  --m-screen-sm: #{$screen-sm};
+  @each $key, $value in $screen-sizes {
+    --m-sreen-#{$key}: #{$value};
+  }
 }
