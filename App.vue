@@ -11,18 +11,7 @@ watch(
 );
 </script>
 <template>
-  <div class="m-main">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
-<style lang="scss" scoped>
-.m-main {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-</style>
+<style lang="scss" scoped></style>

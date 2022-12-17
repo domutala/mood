@@ -1,5 +1,6 @@
-<script setup lang="ts">
-import { onBeforeUnmount, onDeactivated, onMounted, ref, type Ref } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted, onDeactivated, onBeforeUnmount } from "vue";
+import MModal from ".";
 
 const props = defineProps({
   blur: { type: Boolean, default: false },
@@ -7,103 +8,51 @@ const props = defineProps({
   closeOnBack: { type: Boolean, default: true },
   closeOnEsc: { type: Boolean, default: true },
 });
-const emit = defineEmits(["open", "close"]);
 
-const el: Ref<HTMLDivElement | undefined> = ref();
+const emit = defineEmits<{ (event: "close"): void }>();
 
-onMounted(init);
-function init() {
-  if (!el.value) return;
+const content = ref<HTMLDivElement>();
+const modal = ref<MModal>();
 
-  window.addEventListener("keydown", onEscPress);
-  const body = document.body;
-
-  if (body) {
-    body.appendChild(el.value);
-    emit("open");
-  }
-}
-
-function close() {
-  emit("close");
-}
-
-function onBackClick() {
-  if (props.closeOnBack) close();
-}
-
-function onEscPress(e: any) {
-  if (e.keyCode === 27 && props.closeOnEsc) {
-    const modals = document.querySelectorAll(".m-modal");
-    if (modals[modals.length - 1] === el.value) close();
-  }
-}
-
-function destroy() {
-  const body = document.body;
-  window.removeEventListener("keydown", onEscPress);
-  if (!el.value) return;
-
-  if (body && el.value.parentNode === body) {
-    body.removeChild(el.value);
-  }
+onMounted(mounted);
+function mounted() {
+  if (!content.value) return;
+  modal.value = new MModal({
+    el: content.value,
+    closeOnBack: props.closeOnBack,
+    closeOnEsc: props.closeOnEsc,
+    close: () => emit("close"),
+  });
 }
 
 onBeforeUnmount(destroy);
 onDeactivated(destroy);
+function destroy() {
+  modal.value?.destroy();
+}
 </script>
 
 <template>
-  <div ref="el" class="m-modal" :class="{ blur, extend }">
-    <div class="m-modal-back" @click="onBackClick"></div>
+  <div ref="content" class="m-modal-modal" :class="{ extend }">
     <slot />
   </div>
 </template>
 
-<style lang="scss">
-:root {
-  --m-modal-z-index: 2500;
-}
-
-.m-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+<style lang="scss" scoped>
+.m-modal-modal {
+  max-width: 90%;
+  max-height: 90%;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: var(--m-modal-z-index);
-
-  .m-modal-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: var(--m-dark-010-color);
-  }
-
-  > * {
-    &:not(.m-modal-back) {
-      max-width: 90%;
-      max-height: 90%;
-      position: relative;
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    }
-  }
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 
   &.extend {
-    > * {
-      &:not(.m-modal-back) {
-        max-width: unset;
-        max-height: unset;
-        width: 100%;
-        height: 100%;
-        box-shadow: none;
-      }
-    }
+    max-width: unset;
+    max-height: unset;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
   }
 }
 </style>

@@ -8,18 +8,19 @@ export { default as init } from "./init";
 export * from "./meta";
 
 export function getMainComponent(): HTMLElement {
-  return document.querySelector(".m-main")!;
+  return document.querySelector("body")!;
 }
 
 export const Mood = {
   install(app: App) {
     app.config.globalProperties.$mood = {} as any;
-
     app.config.globalProperties.$mood.mainComponent = getMainComponent;
 
     app.use(meta);
     app.use(components);
     app.use(styles);
+
+    document.querySelector("body")?.classList.add("m-main");
   },
 };
 
