@@ -1,0 +1,19 @@
+:root {
+  @include mColorBuilder2($primary, "primary");
+  @include mColorBuilder2($primary-flat, "primary-flat");
+
+  @include mColorBuilder2($danger, "danger");
+  @include mColorBuilder2($danger-flat, "danger-flat");
+
+  @include mColorBuilder2($success, "success");
+  @include mColorBuilder2($success-flat, "success-flat");
+
+  @include mColorBuilder2($info, "info");
+  @include mColorBuilder2($info-flat, "info-flat");
+
+  @include mColorBuilder2($dark, "dark");
+  @include mColorBuilder2($dark-flat, "dark-flat");
+
+  @include mColorBuilder2($light, "light");
+  @include mColorBuilder2($light-flat, "light-flat");
+}

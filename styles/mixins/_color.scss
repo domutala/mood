@@ -84,3 +84,19 @@
     }
   }
 }
+
+@mixin mColorBuilder2($color, $name) {
+  --m-ntv-#{$name}: #{$color};
+  --m-#{$name}: rgb(var(--m-ntv-#{$name}));
+
+  @for $i from 1 through 100 {
+    $o: 100 - $i;
+    @if $o > 9 {
+      $o: "0#{$o}";
+    } @else {
+      $o: "00#{$o}";
+    }
+
+    --m-#{$name}-#{$o}: rgba(var(--m-ntv-#{$name}), #{$i * 0.01});
+  }
+}

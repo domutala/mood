@@ -46,6 +46,10 @@ function destroy() {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: var(--light);
+  border-radius: 0.6em;
+  overflow: auto;
 
   &.extend {
     max-width: unset;

@@ -2,13 +2,10 @@
 import { ref, onMounted, onDeactivated, onBeforeUnmount } from "vue";
 import {
   computePosition,
-  autoPlacement,
-  autoUpdate,
   offset,
-  type Alignment,
-  type Placement,
   type ComputePositionConfig,
 } from "@floating-ui/dom";
+import { createPopper } from "@popperjs/core";
 import MModal from ".";
 
 const props = defineProps({
@@ -44,55 +41,32 @@ async function mounted() {
     close: () => emit("close"),
   });
 
-  autoUpdate(parent.value, content.value, setPosition);
+  const g = 50 + props.offset;
+  content.value.style.maxWidth = `${window.innerWidth - g}px`;
+  content.value.style.maxHeight = `${window.innerHeight - g}px`;
+
+  const popper = createPopper(parent.value, content.value, {
+    modifiers: [],
+  });
+  // popper.forceUpdate();
+  // autoUpdate(parent.value, content.value, setPosition);
+  // setPosition();
+  // window.addEventListener("resize", setPosition);
+  // window.addEventListener("resize", setPosition);
 }
 
 async function setPosition() {
   if (!parent.value) return;
   if (!content.value) return;
 
-  let allowedPlacements: Placement[] =
-    props.direction === "vertical"
-      ? ["top-start", "top-end", "bottom-start", "bottom-end"]
-      : props.direction === "horizontal"
-      ? ["right-start", "right-end", "left-start", "left-end"]
-      : [];
-
-  const parentRect = parent.value.getBoundingClientRect();
-  const contentRect = content.value.getBoundingClientRect();
-
-  const gapLeft = window.innerWidth - parentRect.left;
-  const gapRight = window.innerWidth - parentRect.right;
-
-  const gapBottom = window.innerHeight - parentRect.top;
-  const gapTop = window.innerHeight - parentRect.bottom;
-
-  let alignment: Alignment | undefined;
-
-  if (props.start) {
-    if (props.direction === "vertical") {
-      if (gapLeft >= contentRect.width) alignment = "start";
-      else if (gapRight >= contentRect.width) alignment = "end";
-      else alignment = "start";
-    } else if (props.direction === "horizontal") {
-      if (gapBottom >= contentRect.width) alignment = "start";
-      else if (gapTop >= contentRect.width) alignment = "end";
-      else alignment = "start";
-    }
-  }
-
   const config: ComputePositionConfig = {
-    middleware: [
-      autoPlacement({ alignment, allowedPlacements }),
-      offset(props.offset),
-    ],
+    middleware: [offset(props.offset)],
   };
 
-  const g = 50 + props.offset;
-  content.value.style.maxWidth = `${window.innerWidth - g}px`;
-  content.value.style.maxHeight = `${window.innerHeight - g}px`;
-
   const aa = await computePosition(parent.value, content.value, config);
+
+  if (!parent.value) return;
+  if (!content.value) return;
 
   content.value.style.left = `${aa.x}px`;
   content.value.style.top = `${aa.y}px`;
@@ -113,12 +87,15 @@ function destroy() {
 <style lang="scss" scoped>
 .m-modal-popup {
   overflow: auto;
-  display: flex;
-  flex-direction: column;
   background-color: var(--m-light);
-
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  // box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+  //   rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 0.3em;
+
+  box-shadow: var(
+    --ds-shadow-overlay,
+    0 4px 8px -2px rgba(9, 30, 66, 0.25),
+    0 0 1px rgba(9, 30, 66, 0.31)
+  );
 }
 </style>

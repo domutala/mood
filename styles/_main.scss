@@ -1,45 +1,11 @@
-@import "fonts";
-@import "mixins/index";
-@import "components/index";
+@import "mixins";
 @import "screen";
-@import "vars";
+@import "components";
 
 :root {
-  $colors: (
-    "primary": (
-      "default": #00a6fb,
-      "flat": #e3f2fd,
-    ),
-    "danger": (
-      "default": #ef233c,
-      "flat": #ffe3e0,
-    ),
-    "success": (
-      "default": #2a9134,
-      "flat": #b7efc5,
-    ),
-    "info": (
-      "default": #ffd819,
-      "flat": #fff6cc,
-    ),
-    "dark": (
-      "default": #252422,
-      "flat": #e9ecef,
-    ),
-    "light": (
-      "default": #fff,
-      "flat": #fff,
-    ),
-  );
-
-  @each $key, $value in $colors {
-    --m-#{$key}: #{map-get($value, "default")};
-    --m-#{$key}-flat: #{map-get($value, "flat")};
-  }
-
-  @each $key, $value in $colors {
-    @include mColorBuilder($value, $key);
-  }
+  --m-text-color: var(--m-dark);
+  --m-back-color: var(--m-light);
+  --m-border-color: var(--m-dark-050);
 }
 
 body {
@@ -82,10 +48,10 @@ body {
       }
     }
   }
+}
 
-  *,
-  ::after,
-  ::before {
-    box-sizing: inherit;
-  }
+*,
+::after,
+::before {
+  box-sizing: border-box;
 }

@@ -1,9 +1,13 @@
 import MModal from "./MModal.vue";
-import MPopup from "./MPopup.vue";
+import MModalBottom from "./MModalBottom.vue";
+import MModalPopup from "./MModalPopup.vue";
+import MModalOptions from "./MModalOptions.vue";
 
 declare module "@vue/runtime-core" {
   export interface GlobalComponents {
     MModal: typeof MModal;
-    MPopup: typeof MPopup;
+    MModalBottom: typeof MModalBottom;
+    MModalPopup: typeof MModalPopup;
+    MModalOptions: typeof MModalOptions;
   }
 }

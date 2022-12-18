@@ -7,6 +7,7 @@ const props = defineProps({
   success: { default: false, type: Boolean },
   info: { default: false, type: Boolean },
   dark: { default: false, type: Boolean },
+  light: { default: false, type: Boolean },
 
   flat: { default: false, type: Boolean },
   transparent: { default: false, type: Boolean },
@@ -23,6 +24,8 @@ const props = defineProps({
 const typeColor = computed(() => {
   return props.dark
     ? "dark"
+    : props.light
+    ? "light"
     : props.danger
     ? "danger"
     : props.info
@@ -45,19 +48,14 @@ onMounted(() => {});
 <template>
   <button
     class="m-button"
-    :class="[
-      classBuild,
-      {
-        square,
-        border,
-        flat,
-        icon,
-        lg,
-      },
-    ]"
+    :class="[typeColor, { square, border, flat, icon, lg, transparent }]"
     :type="props.type as 'button'"
     :disabled="disabled"
   >
     <slot />
+
+    <div class="m-button-background"></div>
+    <div class="m-button-border"></div>
+    <div class="m-button-splash"></div>
   </button>
 </template>
