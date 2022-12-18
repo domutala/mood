@@ -1,21 +1,21 @@
 <script lang="ts" setup>
 import { ref, onMounted, onDeactivated, onBeforeUnmount } from "vue";
 import {
+  autoUpdate,
   computePosition,
   offset,
+  size,
+  autoPlacement,
   type ComputePositionConfig,
+  type Placement,
 } from "@floating-ui/dom";
-import { createPopper } from "@popperjs/core";
 import MModal from ".";
 
 const props = defineProps({
   link: { required: true, type: [String, HTMLElement] },
   offset: { default: 7 },
-  start: { default: false, type: Boolean },
-  direction: {
-    type: String,
-    validator: (v: string) => ["horizontal", "vertical"].includes(v),
-  },
+  alignement: { type: String },
+  direction: { type: String },
 });
 
 const emit = defineEmits<{ (event: "close"): void }>();
@@ -45,22 +45,43 @@ async function mounted() {
   content.value.style.maxWidth = `${window.innerWidth - g}px`;
   content.value.style.maxHeight = `${window.innerHeight - g}px`;
 
-  const popper = createPopper(parent.value, content.value, {
-    modifiers: [],
-  });
-  // popper.forceUpdate();
-  // autoUpdate(parent.value, content.value, setPosition);
-  // setPosition();
-  // window.addEventListener("resize", setPosition);
-  // window.addEventListener("resize", setPosition);
+  autoUpdate(parent.value, content.value, setPosition);
 }
 
 async function setPosition() {
   if (!parent.value) return;
   if (!content.value) return;
 
+  const allowedPlacements: Placement[] =
+    props.direction === "vertical"
+      ? ["bottom", "bottom-start", "bottom-end", "top", "top-start", "top-end"]
+      : props.direction === "horizontal"
+      ? ["left", "left-start", "left-end", "right", "right-start", "right-end"]
+      : [];
+
   const config: ComputePositionConfig = {
-    middleware: [offset(props.offset)],
+    middleware: [
+      autoPlacement({
+        allowedPlacements,
+        alignment: props.alignement as "start",
+        autoAlignment: false,
+      }),
+      offset(props.offset),
+      size({
+        apply({ availableWidth, availableHeight, elements }) {
+          const maxW = window.innerWidth - 200;
+          const maxH = window.innerHeight - 200;
+
+          availableWidth = availableWidth > maxW ? maxW : availableWidth;
+          availableHeight = availableHeight > maxH ? maxH : availableHeight;
+
+          Object.assign(elements.floating.style, {
+            maxWidth: `${availableWidth}px`,
+            maxHeight: `${availableHeight}px`,
+          });
+        },
+      }),
+    ],
   };
 
   const aa = await computePosition(parent.value, content.value, config);

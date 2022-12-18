@@ -35,13 +35,6 @@ const typeColor = computed(() => {
     : "primary";
 });
 
-const classBuild = computed(() => {
-  let ext = props.transparent ? "transparent" : props.flat ? "flat" : "";
-  if (ext) ext = `-${ext}`;
-
-  return `${typeColor.value}${ext}`;
-});
-
 onMounted(() => {});
 </script>
 

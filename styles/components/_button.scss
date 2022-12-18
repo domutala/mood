@@ -46,13 +46,6 @@
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   white-space: nowrap;
 
-  // $colors: ("danger", "info", "success", "primary", "dark");
-  // @each $color in $colors {
-  //   @include mComponentBuildColor(#{$color});
-  //   @include mComponentBuildColor("#{$color}-flat");
-  //   @include mComponentBuildColor("#{$color}-transparent");
-  // }
-
   &.square {
     border-radius: 0;
   }

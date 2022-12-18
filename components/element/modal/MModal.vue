@@ -7,6 +7,7 @@ const props = defineProps({
   extend: { type: Boolean, default: false },
   closeOnBack: { type: Boolean, default: true },
   closeOnEsc: { type: Boolean, default: true },
+  width: { type: Number, default: 572 },
 });
 
 const emit = defineEmits<{ (event: "close"): void }>();
@@ -33,7 +34,12 @@ function destroy() {
 </script>
 
 <template>
-  <div ref="content" class="m-modal-modal" :class="{ extend }">
+  <div
+    ref="content"
+    class="m-modal-modal"
+    :class="{ extend }"
+    :style="{ width: `${width}px` }"
+  >
     <slot />
   </div>
 </template>
@@ -46,7 +52,8 @@ function destroy() {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   background-color: var(--light);
   border-radius: 0.6em;
   overflow: auto;

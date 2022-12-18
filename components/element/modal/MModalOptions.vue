@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import { onMounted, ref, onBeforeUnmount, onDeactivated } from "vue";
 
-defineProps({ link: { required: true, type: [String, HTMLElement] } });
+defineProps({
+  link: { required: true, type: [String, HTMLElement] },
+  popupAlignement: { type: String },
+  popupDirection: { type: String },
+});
 const emit = defineEmits<{ (event: "close"): void }>();
 const mode = ref<"popup" | "bottom">("popup");
 
@@ -209,10 +213,10 @@ function destroy() {
   </m-modal-bottom>
   <m-modal-popup
     v-else
-    direction="vertical"
+    :alignement="popupAlignement"
+    :direction="popupDirection"
     :link="link"
     @close="emit('close')"
-    start
   >
     <div style="max-width: 300px">
       <div style="padding: 20px">
