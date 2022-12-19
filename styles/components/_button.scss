@@ -1,32 +1,3 @@
-// :root {
-//   $colors: (
-//     "primary": (
-//       "default": #00a6fb,
-//       "flat": #e3f2fd,
-//     ),
-//     "danger": (
-//       "default": #ef233c,
-//       "flat": #ffe3e0,
-//     ),
-//     "success": (
-//       "default": #2a9134,
-//       "flat": #b7efc5,
-//     ),
-//     "info": (
-//       "default": #ffd819,
-//       "flat": #fff6cc,
-//     ),
-//     "dark": (
-//       "default": #252422,
-//       "flat": #e9ecef,
-//     ),
-//   );
-
-//   @each $key, $value in $colors {
-//     // @include mColorBuilder($value, $key, "button");
-//   }
-// }
-
 .m-button {
   font-size: 15px;
   border: 0;
@@ -56,9 +27,14 @@
     height: 42px;
   }
 
-  &:disabled {
-    cursor: default;
-    opacity: 0.5;
+  &.sm {
+    min-height: 36px;
+    min-width: 36px;
+
+    &.icon {
+      width: 36px;
+      height: 36px;
+    }
   }
 }
 
@@ -67,7 +43,7 @@
 
   > * {
     position: relative;
-    z-index: 0;
+    z-index: 2;
   }
 
   > .m-button-background,
@@ -83,7 +59,7 @@
   }
 
   > .m-button-background {
-    z-index: -1;
+    z-index: 0;
   }
 
   > .m-button-border {
@@ -95,13 +71,17 @@
     $col: var(--m-#{$color});
 
     &.#{$color} {
-      > .m-button-border {
-        border-color: $col;
+      &.border {
+        > .m-button-border {
+          border-color: $col;
+        }
       }
+
       > .m-button-background {
         background-color: $col;
       }
 
+      &.transparent,
       &.flat {
         color: $col;
       }
@@ -109,8 +89,11 @@
   }
 
   &.light {
-    color: #000 !important;
+    color: var(--m-dark) !important;
   }
+  // &.dark {
+  //   color: var(--m-light) !important;
+  // }
 
   > .m-button-splash {
     background-color: black;
@@ -131,11 +114,19 @@
     }
   }
 
-  &:hover:not(disabled) {
+  &:hover:not(:disabled) {
     cursor: pointer;
 
     > .m-button-splash {
       opacity: 0.07;
+    }
+  }
+
+  &:disabled {
+    > .m-button-background,
+    > .m-button-border,
+    > .m-button-splash {
+      opacity: 0.3;
     }
   }
 }

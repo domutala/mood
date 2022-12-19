@@ -2,6 +2,7 @@ $screen-xg: 1272px;
 $screen-lg: 992px;
 $screen-md: 772px;
 $screen-sm: 572px;
+$gap-max-width: 10px;
 
 $screen-sizes: (
   xg: $screen-xg,
@@ -11,12 +12,14 @@ $screen-sizes: (
 );
 
 @each $key, $value in $screen-sizes {
+  .m-width-#{$key},
   .--width-#{$key} {
-    max-width: 90% !important;
-    width: #{$value};
+    max-width: calc(100% - $gap-max-width) !important;
+    width: var(--m-sreen-#{$key});
   }
 
   @media (max-width: #{$value}) {
+    .m-fill-at-#{$key},
     .--fill-at-#{$key} {
       max-width: unset !important;
       border-radius: 0 !important;
@@ -25,6 +28,7 @@ $screen-sizes: (
   }
 }
 
+.m-width-fill,
 .--width-fill {
   width: 100% !important;
   border-radius: 0;

@@ -7,15 +7,13 @@
 <script setup lang="ts">
 defineProps({
   name: { required: true, type: String },
-  width: { default: "18px", type: String },
-  height: { default: "18px", type: String },
+  width: { type: String },
+  height: { type: String },
 });
 </script>
 
 <style>
 svg {
-  width: inherit;
-  height: inherit;
   fill: currentColor;
 }
 </style>

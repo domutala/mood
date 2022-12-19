@@ -1,0 +1,20 @@
+$sides: ("top", "left", "right", "bottom");
+
+@each $side in $sides {
+  .margin-#{$side}-auto,
+  .margin-auto {
+    margin-#{$side}: auto;
+  }
+
+  @for $i from 1 through 100 {
+    .margin-#{$side}-#{$i},
+    .margin-#{$i} {
+      margin-#{$side}: #{$i}px;
+    }
+
+    .padding-#{$side}-#{$i},
+    .padding-#{$i} {
+      padding-#{$side}: #{$i}px;
+    }
+  }
+}

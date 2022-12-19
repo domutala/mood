@@ -2,13 +2,6 @@
 import { onBeforeUnmount, onDeactivated, onMounted, ref } from "vue";
 import $ from "jquery";
 
-defineProps({
-  url: { type: String },
-  title: { type: String },
-  subtitle: { type: String },
-  itemWidth: { type: Number, default: 360 },
-});
-
 const isScrollable = ref(false);
 const isInStart = ref(false);
 const isInEnd = ref(false);
@@ -148,6 +141,7 @@ function destroy() {
 <style lang="scss" scoped>
 .m-listning-horizontal {
   position: relative;
+  width: 100%;
 
   .m-listning-horizontal-nav {
     padding-left: 5px;
@@ -185,6 +179,12 @@ function destroy() {
         display: flex;
         align-items: center;
       }
+    }
+  }
+
+  &:not(:hover) {
+    .m-listning-horizontal-nav {
+      display: none;
     }
   }
 

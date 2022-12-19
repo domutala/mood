@@ -12,13 +12,15 @@ function onRouteChange() {
   }
 }
 
-function setTitle(text = "") {
+function setTitle(text = "", appName?: string) {
   const head = document.querySelector("head") as HTMLHeadElement;
   let el = head.querySelector("title");
   if (!el) {
     el = document.createElement("title");
     head.appendChild(el);
   }
+
+  if (appName) text = text ? `${text} - ${appName}` : appName;
 
   el.innerHTML = text;
 }
@@ -38,9 +40,14 @@ function setMeta(name: string, content: string) {
 
 export function useMeta({
   title,
+  appName,
   metas,
-}: { title?: string; metas?: { name: string; content: string }[] } = {}) {
-  setTitle(title);
+}: {
+  title?: string;
+  appName?: string;
+  metas?: { name: string; content: string }[];
+} = {}) {
+  setTitle(title, appName);
 
   if (metas) {
     for (const meta of metas) {

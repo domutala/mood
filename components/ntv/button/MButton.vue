@@ -13,6 +13,7 @@ const props = defineProps({
   transparent: { default: false, type: Boolean },
 
   lg: { default: false, type: Boolean },
+  sm: { default: false, type: Boolean },
 
   square: { default: false, type: Boolean },
   icon: { default: false, type: Boolean },
@@ -41,7 +42,7 @@ onMounted(() => {});
 <template>
   <button
     class="m-button"
-    :class="[typeColor, { square, border, flat, icon, lg, transparent }]"
+    :class="[typeColor, { square, border, flat, icon, lg, sm, transparent }]"
     :type="props.type as 'button'"
     :disabled="disabled"
   >

@@ -1,11 +1,12 @@
 import type { App } from "vue";
 import meta from "./meta";
 import components from "./components";
-import styles from "./styles";
+import { Plugin as StylePlugin } from "./styles";
 
+export * from "./meta";
 export { default as utils } from "./utils";
 export { default as init } from "./init";
-export * from "./meta";
+export { default as styles } from "./styles";
 
 export function getMainComponent(): HTMLElement {
   return document.querySelector("body")!;
@@ -18,7 +19,7 @@ export const Mood = {
 
     app.use(meta);
     app.use(components);
-    app.use(styles);
+    app.use(StylePlugin);
 
     document.querySelector("body")?.classList.add("m-main");
   },
