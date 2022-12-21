@@ -6,57 +6,45 @@ import {
   writeFileSync,
   watch,
 } from "node:fs";
-import type { PluginOption } from "vite";
 import * as path from "node:path";
+import type { ModdVitePlugin } from ".";
+import type { MoodPluginConfig } from "../type";
 
-export default function (): PluginOption {
-  return {
-    name: "vite-plugin-mood",
-    enforce: "pre",
+const plugin: ModdVitePlugin = {
+  buildStart(config: MoodPluginConfig) {
+    buildIcon(config);
+  },
+};
 
-    buildStart() {
-      buildIcon();
-    },
-  };
-}
-
-function buildIcon() {
-  let config: { [key: string]: any } = {};
+function buildIcon(configs: MoodPluginConfig) {
   let PUBLIC_DIR = "public";
-  let SRC_DIR = path.relative(process.cwd(), "src/assets/icons");
+  let SRC_DIR = "assets/icons";
 
   try {
-    const pathToConfig = path.join(process.cwd(), "micons.config.json");
-    config = JSON.parse(readFileSync(pathToConfig, "utf-8"));
-
-    if (config.icons) {
-      if (config.publicDir) PUBLIC_DIR = config.publicDir;
-      if (config.icons?.src) {
-        SRC_DIR = path.relative(process.cwd(), config.icons.src);
-      }
+    if (configs.icons) {
+      if (configs.icons.publicDir) PUBLIC_DIR = configs.icons.publicDir;
+      if (configs.icons.src) configs.icons.src;
     }
-
     // eslint-disable-next-line no-empty
   } catch (error) {}
 
-  if (existsSync(SRC_DIR)) {
-    const DIR = path.resolve(process.cwd(), PUBLIC_DIR, `mi`);
-    const DIR_ICON = path.resolve(DIR, "icons");
+  PUBLIC_DIR = path.resolve(process.cwd(), PUBLIC_DIR);
+  SRC_DIR = path.resolve(process.cwd(), "src", SRC_DIR);
 
-    if (!existsSync(DIR)) mkdirSync(DIR);
-    if (!existsSync(DIR_ICON)) mkdirSync(DIR_ICON);
+  if (!existsSync(SRC_DIR) || !existsSync(PUBLIC_DIR)) return;
 
-    toconvert(config);
-    watch(SRC_DIR, () => toconvert(config));
-  }
+  const DIR = path.resolve(process.cwd(), PUBLIC_DIR, `mi`);
+  const DIR_ICON = path.resolve(DIR, "icons");
+
+  if (!existsSync(DIR)) mkdirSync(DIR);
+  if (!existsSync(DIR_ICON)) mkdirSync(DIR_ICON);
+
+  toconvert(SRC_DIR, PUBLIC_DIR);
+  watch(SRC_DIR, () => toconvert(SRC_DIR, PUBLIC_DIR));
 }
 
-function toconvert(config: { [key: string]: any } = {}) {
-  let from = path.join(process.cwd(), "src/assets/icons");
-
-  const PUBLIC_DIR = config.publicDir || "public";
-  if (config.icons?.src) from = path.join(process.cwd(), config.icons.src);
-
+function toconvert(SRC_DIR: string, PUBLIC_DIR: string) {
+  const from = SRC_DIR;
   const dirs = readdirSync(`${from}`);
   const to = path.resolve(process.cwd(), `${PUBLIC_DIR}/mi/icons`);
   const icons = [];
@@ -87,3 +75,5 @@ function toconvert(config: { [key: string]: any } = {}) {
 
   writeFileSync(path.resolve(to, `micons.svg`), symbol);
 }
+
+export default plugin;
