@@ -1,17 +1,8 @@
 import _ from "lodash";
-import type { App, Component } from "vue";
+import type { App } from "vue";
 
 export default {
   install(app: App) {
-    console.log();
-
-    const layouts = import.meta.globEager<Record<string, any>>(
-      "@/layouts/**/*.vue"
-    );
-    for (const layout of Object.keys(layouts)) {
-      createCompoenent(layout, layouts[layout].default, "MLayout");
-    }
-
     const folders: string[] = ["/", "ntv", "element"];
 
     for (let i = 0; i < folders.length; i++) {
@@ -45,22 +36,6 @@ export default {
 
         app.component(name, m.default);
       }
-    }
-
-    function createCompoenent(
-      name: string,
-      component: Component,
-      prefix?: string
-    ) {
-      name = name.split("/").pop() as string;
-      name = name.replace(/\.\w+$/, "") as string;
-      name = _.upperFirst(_.camelCase(name));
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      name = (prefix ?? "") + name;
-
-      // console.log(name);
-
-      // app.component(name, component);
     }
   },
 };
