@@ -17,6 +17,21 @@
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   white-space: nowrap;
 
+  &.block {
+    display: flex;
+    width: 100%;
+  }
+
+  &.text-align-center {
+    justify-content: center;
+  }
+  &.text-align-left {
+    justify-content: flex-start;
+  }
+  &.text-align-right {
+    justify-content: flex-end;
+  }
+
   &.square {
     border-radius: 0;
   }

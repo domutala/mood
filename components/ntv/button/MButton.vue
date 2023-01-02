@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onMounted, type PropType } from "vue";
 
 const props = defineProps({
   primary: { default: true, type: Boolean },
@@ -11,6 +11,11 @@ const props = defineProps({
 
   flat: { default: false, type: Boolean },
   transparent: { default: false, type: Boolean },
+  block: { default: false, type: Boolean },
+  textAlign: {
+    default: "center",
+    type: String as PropType<"left" | "right" | "center">,
+  },
 
   lg: { default: false, type: Boolean },
   sm: { default: false, type: Boolean },
@@ -42,7 +47,11 @@ onMounted(() => {});
 <template>
   <button
     class="m-button"
-    :class="[typeColor, { square, border, flat, icon, lg, sm, transparent }]"
+    :class="[
+      typeColor,
+      `text-align-${textAlign}`,
+      { square, border, flat, icon, lg, sm, transparent, block },
+    ]"
     :type="props.type as 'button'"
     :disabled="disabled"
   >
