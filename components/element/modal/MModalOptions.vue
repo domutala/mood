@@ -56,12 +56,12 @@ function destroy() {
   >
     <slot />
   </m-modal-bottom>
-  <m-modal-popup2
+  <m-modal-popup
     v-else-if="ready && open"
     :link="button!"
     :alignment="alignment"
     @close="onClose"
   >
     <slot />
-  </m-modal-popup2>
+  </m-modal-popup>
 </template>
