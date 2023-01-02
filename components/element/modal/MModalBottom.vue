@@ -3,7 +3,10 @@ import { onMounted, ref, onBeforeUnmount, onDeactivated } from "vue";
 import MModal from ".";
 import $ from "jquery";
 
-defineProps({ maxWidth: { default: 572 } });
+defineProps({
+  maxWidth: { default: 572 },
+  classPopup: { default: "", type: String },
+});
 const emit = defineEmits<{ (event: "close"): void }>();
 
 const root = ref<HTMLDivElement>();
@@ -101,7 +104,7 @@ function destroy() {
   <div class="m-modal-bottom" ref="root" :style="{ maxWidth: `${maxWidth}px` }">
     <div ref="content" class="content">
       <div ref="top" class="top" @click="() => close()"></div>
-      <div ref="bottom" class="bottom">
+      <div ref="bottom" class="bottom" :class="classPopup">
         <slot />
       </div>
     </div>
@@ -139,7 +142,7 @@ function destroy() {
     .bottom {
       box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
       background-color: var(--light);
-      height: calc(100% - 100px);
+      max-height: calc(100% - 100px);
       overflow: auto;
       border-top-right-radius: 0.6em;
       border-top-left-radius: 0.6em;
