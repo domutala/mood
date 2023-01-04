@@ -1,19 +1,26 @@
 <script lang="ts" setup>
-import { ref, onMounted, onDeactivated, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onDeactivated, onBeforeUnmount } from "vue";
 import MModal from ".";
 
 const props = defineProps({
   blur: { type: Boolean, default: false },
   extend: { type: Boolean, default: false },
+  contentClass: { type: String, default: "" },
   closeOnBack: { type: Boolean, default: true },
   closeOnEsc: { type: Boolean, default: true },
-  width: { type: Number, default: 572 },
+  width: { type: [Number, String], default: 572 },
+  bgColor: { type: String },
 });
 
 const emit = defineEmits<{ (event: "close"): void }>();
 
 const content = ref<HTMLDivElement>();
 const modal = ref<MModal>();
+
+const cwidth = computed(() => {
+  if (typeof props.width === "number") return `${props.width}px`;
+  return props.width;
+});
 
 onMounted(mounted);
 function mounted() {
@@ -23,6 +30,7 @@ function mounted() {
     closeOnBack: props.closeOnBack,
     closeOnEsc: props.closeOnEsc,
     close: () => emit("close"),
+    bgColor: props.bgColor,
   });
 }
 
@@ -37,8 +45,8 @@ function destroy() {
   <div
     ref="content"
     class="m-modal-modal"
-    :class="{ extend }"
-    :style="{ width: `${width}px` }"
+    :class="[contentClass, { extend }]"
+    :style="{ width: cwidth }"
   >
     <slot />
   </div>
@@ -61,9 +69,11 @@ function destroy() {
   &.extend {
     max-width: unset;
     max-height: unset;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     box-shadow: none;
+    border-radius: unset;
+    background-color: unset;
   }
 }
 </style>
