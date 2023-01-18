@@ -9,6 +9,7 @@ export class MModal {
   close?: () => void;
   type!: "modal" | "popup";
   zIndex = 2500;
+  bgColor?: string;
 
   isElementClicked = false;
 
@@ -19,6 +20,7 @@ export class MModal {
     close,
     type = "modal",
     zIndex = 2500,
+    bgColor,
   }: {
     el: string | HTMLElement;
     closeOnBack?: boolean;
@@ -26,6 +28,7 @@ export class MModal {
     close?: () => void;
     type?: "modal" | "popup";
     zIndex?: number;
+    bgColor?: string;
   }) {
     if (typeof el === "string") {
       this.element = document.querySelector(el) as HTMLElement;
@@ -37,6 +40,7 @@ export class MModal {
     this.close = close;
     this.type = type;
     this.zIndex = zIndex;
+    this.bgColor = bgColor;
 
     this.setBack();
     if (this.closeOnEsc) {
@@ -63,7 +67,11 @@ export class MModal {
       this.back.style.top = "0";
       this.back.style.left = "0";
       this.back.style.zIndex = `${this.zIndex - 0}`;
+<<<<<<< HEAD
       this.back.style.backgroundColor = "#00000029";
+=======
+      this.back.style.backgroundColor = this.bgColor ?? "#0000000b";
+>>>>>>> dc2b9ba6d7dfb9e7fa3cca8338b453255c3537fc
       this.back.style.width = "100%";
       this.back.style.height = "100%";
 
