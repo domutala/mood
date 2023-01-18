@@ -2,11 +2,16 @@ export * from ".";
 
 import "./components";
 import * as meta from "./meta";
+import { functions } from "./functions";
+import { Color } from "./styles";
 
 export {};
 
+declare let flutter_inappwebview: any;
+
 declare global {
   const MOOD_CONFIGS: MoodPluginConfig;
+  const flutter_inappwebview: any;
 }
 
 export type MoodPluginConfig = {
@@ -19,10 +24,9 @@ declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
     $mood: {
       useMeta: typeof meta.useMeta;
+      functions: typeof functions;
       mainComponent: () => HTMLElement;
-      styles: {
-        screen: { xg: number; lg: number; md: number; sm: number };
-      };
+      styles: Color;
     };
   }
 }

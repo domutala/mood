@@ -5,6 +5,16 @@ export default {
   install(app: App) {
     const folders: string[] = ["/", "ntv", "element"];
 
+    window.addEventListener("is-modal-open", () => {
+      const modals = document.querySelectorAll("[m-modal]");
+      if (modals.length) {
+        window.dispatchEvent(new CustomEvent("close-last-modal"));
+      } else {
+        if (!(window as any).flutter_inappwebview) return;
+        flutter_inappwebview.callHandler("go-back", true);
+      }
+    });
+
     for (let i = 0; i < folders.length; i++) {
       let fold = folders[i];
       if (fold.startsWith("/")) fold = fold.slice(1);

@@ -31,9 +31,9 @@ async function mounted() {
   });
 
   const topHeight = top.value.getBoundingClientRect().height;
-  content.value.scrollTo({ top: topHeight, behavior: "smooth" });
-  content.value.addEventListener("scroll", onScroll);
+  $(content.value).animate({ scrollTop: topHeight }, "fast");
 
+  content.value.addEventListener("scroll", onScroll);
   content.value.addEventListener("touchstart", (e) => onTouch(e));
   content.value.addEventListener("touchend", (e) => onTouch(e));
   content.value.addEventListener("touchend", (e) => onTouch(e));
@@ -49,35 +49,57 @@ function onTouch(e: TouchEvent | MouseEvent) {
 
 function onScroll() {
   if (!content.value) return;
+  if (!bottom.value) return;
+  if (!top.value) return;
 
   const oldScrollTop = content.value.scrollTop;
-  const limit = content.value.getBoundingClientRect().height / 2;
 
   setTimeout(() => {
-    if (!content.value) return;
+    const newScrollTop = content.value!.scrollTop;
+    if (newScrollTop !== oldScrollTop || isTouch.value) return;
 
-    const newScrollTop = content.value.scrollTop;
-    if (newScrollTop === oldScrollTop && !isTouch.value) {
-      const topHeight = top.value!.getBoundingClientRect().height;
+    const bottomRect = bottom.value!.getBoundingClientRect();
+    const topHeight = top.value!.getBoundingClientRect().height;
 
-      if (limit > content.value!.scrollTop) {
-        waite.value = true;
-        content.value!.scrollTo({ top: 0, behavior: "smooth" });
+    const x = bottomRect.bottom - window.innerHeight;
+    if (x > bottomRect.height / 3) {
+      waite.value = true;
+      content.value!.scrollTo({ top: 0, behavior: "smooth" });
 
-        close(() => {
-          waite.value = false;
-          content.value?.scrollTo({ top: topHeight });
-        });
-      } else {
-        content.value?.scrollTo({ top: topHeight, behavior: "smooth" });
-      }
+      close(() => {
+        waite.value = false;
+        content.value?.scrollTo({ top: topHeight });
+      });
+    } else {
+      content.value!.scrollTo({ top: topHeight, behavior: "smooth" });
     }
   }, 200);
+
+  // setTimeout(() => {
+  //   if (!content.value) return;
+
+  //   const newScrollTop = content.value.scrollTop;
+  //   if (newScrollTop === oldScrollTop && !isTouch.value) {
+  //     const topHeight = top.value!.getBoundingClientRect().height;
+
+  //     if (limit > content.value!.scrollTop) {
+  //       waite.value = true;
+  //       content.value!.scrollTo({ top: 0, behavior: "smooth" });
+
+  //       close(() => {
+  //         waite.value = false;
+  //         content.value?.scrollTo({ top: topHeight });
+  //       });
+  //     } else {
+  //       content.value?.scrollTo({ top: topHeight, behavior: "smooth" });
+  //     }
+  //   }
+  // }, 200);
 }
 
 function close(onClose?: () => void) {
   if (!content.value) return;
-  $(content.value).animate({ scrollTop: 0, opacity: 0.5 }, "slow", () => {
+  $(content.value).animate({ scrollTop: 0, opacity: 0.5 }, "fast", () => {
     emit("close");
     if (onClose) onClose();
   });
@@ -102,7 +124,9 @@ function destroy() {
     <div ref="content" class="content">
       <div ref="top" class="top" @click="() => close()"></div>
       <div ref="bottom" class="bottom">
-        <slot />
+        <div>
+          <slot />
+        </div>
       </div>
     </div>
     <div class="front" v-if="waite"></div>
@@ -117,6 +141,7 @@ function destroy() {
   width: 100%;
   height: 100%;
   transform: translateX(-50%);
+  background-color: var(--m-dark-090);
 
   > .content {
     position: absolute;
@@ -132,17 +157,26 @@ function destroy() {
     }
 
     .top {
-      background-color: rgba(0, 128, 0, 0.00000001);
       height: 100%;
     }
 
     .bottom {
-      box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
-      background-color: var(--light);
-      height: calc(100% - 100px);
-      overflow: auto;
+      max-height: calc(100% - 100px);
+      overflow: hidden;
       border-top-right-radius: 0.6em;
       border-top-left-radius: 0.6em;
+      display: flex;
+      align-items: flex-end;
+      pointer-events: none;
+
+      > div {
+        pointer-events: auto;
+        overflow: auto;
+        box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
+        width: 100%;
+        max-height: 100%;
+        background-color: var(--light);
+      }
     }
   }
 

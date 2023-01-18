@@ -1,9 +1,11 @@
 import type { App } from "vue";
 import meta from "./meta";
+import functions from "./functions";
 import components from "./components";
 import { Plugin as StylePlugin } from "./styles";
 
 export * from "./meta";
+export { functions } from "./functions";
 export { default as utils } from "./utils";
 export { default as init } from "./init";
 export { default as styles } from "./styles";
@@ -20,6 +22,7 @@ export const Mood = {
     app.use(meta);
     app.use(components);
     app.use(StylePlugin);
+    app.use(functions);
 
     document.querySelector("body")?.classList.add("m-main");
   },
