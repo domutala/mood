@@ -35,5 +35,3 @@ const layout = computed(() => children.value.default ?? "router-view");
 <template>
   <component :is="layout" />
 </template>
-
-<style lang="scss" scoped></style>

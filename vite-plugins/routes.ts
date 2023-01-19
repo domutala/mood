@@ -33,7 +33,7 @@ function generator(main: string) {
       .replace(/_/g, ":")
       .replace(/^\/pages/, "")
       .replace(/.vue$/, "")
-      .replace(/P/g, "")
+      .replace(/P/, "")
       .toLocaleLowerCase()
       .replace(/\/index$/g, "");
 

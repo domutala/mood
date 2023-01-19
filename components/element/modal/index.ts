@@ -43,6 +43,8 @@ export class MModal {
       window.addEventListener("keydown", (e) => this.onEscPress(e));
     }
 
+    window.addEventListener("close-last-modal", () => this.onIsModalOpen());
+
     while (!this.attr || document.querySelector(`[m-modal="${this.attr}"]`)) {
       this.attr = randomatic("0", 6);
     }
@@ -61,10 +63,15 @@ export class MModal {
       this.back.style.top = "0";
       this.back.style.left = "0";
       this.back.style.zIndex = `${this.zIndex - 0}`;
-      this.back.style.backgroundColor =
-        this.type === "modal" ? "#0000000b" : "#ffffff00";
+      this.back.style.backgroundColor = "#00000029";
       this.back.style.width = "100%";
       this.back.style.height = "100%";
+
+      if (this.closeOnBack) {
+        setTimeout(() => {
+          this.back!.addEventListener("click", () => this.onWindowClick());
+        }, 0);
+      }
 
       document.body.appendChild(this.back);
     }
@@ -103,9 +110,19 @@ export class MModal {
     }
   }
 
+  onIsModalOpen() {
+    const element = document.querySelector(`[m-modal="${this.attr}"]`);
+    if (!element) return;
+
+    const modals = document.querySelectorAll("[m-modal]");
+    if (modals[modals.length - 1] === element && this.close) this.close();
+  }
+
   destroy() {
     window.removeEventListener("click", () => this.onWindowClick());
     window.removeEventListener("keydown", (e) => this.onEscPress(e));
+    window.removeEventListener("close-last-modal", () => this.onIsModalOpen());
+
     this.back?.remove();
 
     if (this.element) {

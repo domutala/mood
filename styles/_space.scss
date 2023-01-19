@@ -24,6 +24,30 @@ $sides: ("top", "left", "right", "bottom");
     gap: #{$i}px;
   }
 
+  .radius-#{$i},
+  .radius-bottom-#{$i},
+  .radius-left-#{$i} {
+    border-bottom-left-radius: #{$i}px;
+  }
+
+  .radius-#{$i},
+  .radius-bottom-#{$i},
+  .radius-right-#{$i} {
+    border-bottom-left-radius: #{$i}px;
+  }
+
+  .radius-#{$i},
+  .radius-top-#{$i},
+  .radius-left-#{$i} {
+    border-top-left-radius: #{$i}px;
+  }
+
+  .radius-#{$i},
+  .radius-top-#{$i},
+  .radius-right-#{$i} {
+    border-top-left-radius: #{$i}px;
+  }
+
   .width-#{$i} {
     width: #{$i}#{"%"};
   }
