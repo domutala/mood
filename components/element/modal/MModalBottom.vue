@@ -3,7 +3,10 @@ import { onMounted, ref, onBeforeUnmount, onDeactivated } from "vue";
 import MModal from ".";
 import $ from "jquery";
 
-defineProps({ maxWidth: { default: 572 } });
+defineProps({
+  maxWidth: { default: 572 },
+  classPopup: { default: "", type: String },
+});
 const emit = defineEmits<{ (event: "close"): void }>();
 
 const root = ref<HTMLDivElement>();

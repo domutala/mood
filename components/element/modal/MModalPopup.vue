@@ -11,6 +11,7 @@ import MModal from ".";
 const props = defineProps({
   link: { required: true, type: [String, HTMLElement] },
   offset: { default: 7 },
+  classPopup: { default: "", type: String },
   alignment: {
     type: Object as PropType<{
       vertical: "bottom" | "top";
@@ -142,8 +143,8 @@ function destroy() {
 </script>
 
 <template>
-  <div ref="content" class="m-modal-popup" style="position: absolute">
-    <div class="m-modal-popup--content">
+  <div ref="content" class="m-modal-popup">
+    <div class="m-modal-popup--content" :class="classPopup">
       <slot />
     </div>
   </div>
@@ -153,6 +154,7 @@ function destroy() {
 .m-modal-popup {
   pointer-events: none;
   display: flex;
+  position: fixed;
 
   .m-modal-popup--content {
     pointer-events: auto;

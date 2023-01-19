@@ -7,6 +7,7 @@ import { resolve as pathResolve } from "path";
 const plugin: ModdVitePlugin = {
   transform(config: MoodPluginConfig, code: string, id: string) {
     const $1 = path.resolve(process.cwd(), "src/main.ts").replace(/\\/g, "/");
+
     if (id === $1) {
       const fromPath = config.routes?.path ?? "pages";
       const routes = generator(fromPath).join(", \n");

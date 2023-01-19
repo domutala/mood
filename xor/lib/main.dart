@@ -10,6 +10,8 @@ void main() async {
     await InAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
+  // await Firebase.initializeApp();
+
   runApp(const MyApp());
 
   SystemChrome.setSystemUIOverlayStyle(
