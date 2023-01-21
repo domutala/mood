@@ -9,6 +9,10 @@ import {
 
 defineProps({
   classPopup: { default: "", type: String },
+  popupComponent: {
+    default: "popup",
+    type: String as PropType<"modal" | "popup">,
+  },
   alignment: {
     type: Object as PropType<{
       vertical: "bottom" | "top";
@@ -58,13 +62,14 @@ function destroy() {
   >
     <slot />
   </m-modal-bottom>
-  <m-modal-popup
+  <component
     v-else-if="ready && open"
+    :is="popupComponent === 'modal' ? 'm-modal' : 'm-modal-popup'"
     :link="button!"
     :alignment="alignment"
     :classPopup="classPopup"
     @close="onClose"
   >
     <slot />
-  </m-modal-popup>
+  </component>
 </template>

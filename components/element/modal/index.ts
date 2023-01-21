@@ -69,7 +69,7 @@ export class MModal {
       this.back.style.top = "0";
       this.back.style.left = "0";
       this.back.style.zIndex = `${this.zIndex - 0}`;
-      this.back.style.backgroundColor = "#00000029";
+      this.back.style.backgroundColor = "var(--m-dark-060)";
       this.back.style.width = "100%";
       this.back.style.height = "100%";
 

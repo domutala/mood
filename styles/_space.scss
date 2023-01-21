@@ -64,6 +64,10 @@ $sides: ("top", "left", "right", "bottom");
 }
 
 @for $i from 1 through 1000 {
+  .font-size-#{$i}px {
+    font-size: #{$i}px;
+  }
+
   .width-#{$i}px {
     width: #{$i}px;
   }
