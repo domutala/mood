@@ -33,5 +33,6 @@ function createCompoenent(name: string, component: any) {
 const layout = computed(() => children.value.default ?? "router-view");
 </script>
 <template>
+  <m-login-popup />
   <component :is="layout" />
 </template>
