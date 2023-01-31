@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import authServices from "@/services/auth";
+import * as authServices from "@/mood/functions/login";
 import type { LoginMethod } from "@/mood/utils/Firebase";
 import { ref } from "vue";
 
@@ -15,7 +15,7 @@ function login(method: LoginMethod) {
   loading.value = method;
 
   authServices
-    .loginWithFirebaseToken(method)
+    .withFirebaseToken(method)
     .then((user) => {
       if (user) emit("logged");
     })
