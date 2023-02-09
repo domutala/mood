@@ -6,6 +6,7 @@ const isFocus = ref(false);
 
 defineProps({
   modelValue: {},
+  labelPlaceholder: { default: "", type: String },
   placeholder: { default: "", type: String },
   border: { default: true, type: Boolean },
   disabled: { default: false, type: Boolean },
@@ -19,6 +20,13 @@ const emit = defineEmits<{ (e: "update:modelValue", value: any): void }>();
 function onInput() {
   emit("update:modelValue", input.value?.value);
 }
+
+function focus() {
+  if (!input.value) return;
+  setTimeout(input.value?.focus, 10);
+}
+
+defineExpose({ focus });
 </script>
 
 <template>
@@ -44,7 +52,7 @@ function onInput() {
               '--to-textarea': type === 'textarea',
             }"
           >
-            {{ placeholder }}
+            {{ labelPlaceholder }}
           </div>
           <input
             v-if="type !== 'textarea'"
@@ -53,6 +61,7 @@ function onInput() {
             :value="modelValue"
             :type="type"
             :disabled="disabled"
+            :placeholder="placeholder"
             v-bind="$attrs"
             @input="onInput"
             @focus="isFocus = true"

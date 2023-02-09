@@ -5,9 +5,11 @@ import {
   onBeforeUnmount,
   onDeactivated,
   type PropType,
+  watch,
 } from "vue";
 
 defineProps({
+  modalWidth: { type: [Number, String], default: 572 },
   classPopup: { default: "", type: String },
   popupComponent: {
     default: "popup",
@@ -20,7 +22,7 @@ defineProps({
     }>,
   },
 });
-const emit = defineEmits<{ (event: "close"): void }>();
+const emit = defineEmits<{ (event: "close" | "open"): void }>();
 const mode = ref<"popup" | "bottom">("popup");
 const button = ref<HTMLElement>();
 const ready = ref(false);
@@ -36,6 +38,10 @@ async function mounted() {
   }, 200);
 }
 
+watch(
+  () => open.value,
+  () => emit(open.value ? "open" : "close")
+);
 function onResize() {
   mode.value = window.innerWidth > 572 ? "popup" : "bottom";
 }
@@ -44,11 +50,18 @@ function onClose() {
   open.value = false;
   emit("close");
 }
+
+function onOpen() {
+  open.value = true;
+}
+
 onBeforeUnmount(destroy);
 onDeactivated(destroy);
 function destroy() {
   window.removeEventListener("resize", onResize);
 }
+
+defineExpose({ onClose, onOpen });
 </script>
 <template>
   <span ref="button" @click.prevent="open = !open">
@@ -68,6 +81,7 @@ function destroy() {
     :link="button!"
     :alignment="alignment"
     :classPopup="classPopup"
+    :width="modalWidth"
     @close="onClose"
   >
     <slot />

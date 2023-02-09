@@ -19,9 +19,41 @@ $sides: ("top", "left", "right", "bottom");
   }
 }
 
+.margin-auto,
+.margin-y {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.margin-auto,
+.margin-x {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @for $i from 1 through 100 {
+  $o: 100 - $i;
+  @if $o > 9 {
+    $o: "0#{$o}";
+  } @else {
+    $o: "00#{$o}";
+  }
+
+  .margin-y-#{$i} {
+    margin-top: #{$i}px;
+    margin-bottom: #{$i}px;
+  }
+  .margin-x-#{$i} {
+    margin-left: #{$i}px;
+    margin-right: #{$i}px;
+  }
+
   .gap-#{$i} {
     gap: #{$i}px;
+  }
+
+  .opacity-#{$o} {
+    opacity: #{$i * 0.001};
   }
 
   .radius-#{$i},
@@ -64,10 +96,6 @@ $sides: ("top", "left", "right", "bottom");
 }
 
 @for $i from 1 through 1000 {
-  .font-size-#{$i}px {
-    font-size: #{$i}px;
-  }
-
   .width-#{$i}px {
     width: #{$i}px;
   }

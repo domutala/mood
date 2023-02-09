@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, type PropType } from "vue";
+import type { RouteLocationRaw } from "vue-router";
 
 const props = defineProps({
+  tag: {
+    default: "button",
+    type: String as PropType<"a" | "button" | "div" | "router-link">,
+  },
+  to: { type: Object as PropType<RouteLocationRaw> },
   primary: { default: true, type: Boolean },
   danger: { default: false, type: Boolean },
   success: { default: false, type: Boolean },
@@ -45,7 +51,9 @@ onMounted(() => {});
 </script>
 
 <template>
-  <button
+  <component
+    :is="tag"
+    :to="to"
     class="m-button"
     :class="[
       typeColor,
@@ -60,5 +68,5 @@ onMounted(() => {});
     <div class="m-button-background"></div>
     <div class="m-button-border"></div>
     <div class="m-button-splash"></div>
-  </button>
+  </component>
 </template>
